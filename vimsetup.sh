@@ -9,6 +9,10 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 # Install ripgrep
 brew install ripgrep
 
+# Install Fonts for vim-devicons
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+
 echo "
 syntax on
 
@@ -37,14 +41,27 @@ call plug#begin('~/.vim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
-Plug 'leafgarland/typescript-vim'
 Plug 'vim-utils/vim-man'
 Plug 'lyuts/vim-rtags'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ycm-core/YouCompleteMe'
 Plug 'mbbill/undotree'
+Plug 'vim-airline/vim-airline'
+\" TypeScript / JavaScript plugins
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g_coc_global_extensions = ['coc-tsserver']
+\" NERDTree plugins
+Plug 'preservim/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
+
+\" Syntax highlighting for large files
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 if executable('rg')
   let g:rg_derive_root='true'
@@ -63,11 +80,34 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+nnoremap <leader>pv :NERDTreeToggle<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <Leader>vr :vertical resize 60<CR>
 nnoremap <silent> <Leader>+ :vertical resize +5<CR>
 nnoremap <silent> <Leader>- :vertical resize -5<CR>
+
+\" Autoclosing
+inoremap \" \"\"<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+
+
+\" CoC binds
+inoremap <silent> <Leader>d :<C-u>CocList diagnostics<CR>
+inoremap <silent> <Leader>gd <Plug>(coc-definition)
+inoremap <silent> <Leader>gy <Plug>(coc-type-definition)
+inoremap <silent> <Leader>gr <Plug>(coc-references)
+inoremap <silent>K :call CocAction('doHover')<CR>
+inoremap <leader>rn <Plug>(coc-rename)
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+autocmd CursorHold * silent call CocActionAsync('highlight')
+nmap <leader>do <Plug>(coc-codeaction)
+nmap <leader>fx <Plug>(coc-fix-current)
 
 \" Tabs
 nnoremap <Leader>tn :tabnew<SPACE>
@@ -79,11 +119,16 @@ nnoremap <silent> <Leader>n :tabn<CR>
 nnoremap <Leader>if gg=G<CR>
 nnoremap <Leader>ib =%<CR>
 
-\" YCM, The best part.
-nnoremap <silent> <Leader>gd :YcmCompleter GoTo<CR>
-nnoremap <silent> <Leader>gf :YcmCompleter FixIt<CR>
-nnoremap <silent> <Leader>gb <C-O>
+
+\" Make <CR> auto-select the first completion
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>\"
+
+\" Color schemes
+colorscheme onedark
+set background=dark
 " > ~/.vimrc
-echo "Vim configuration installed…"
-echo "Please execute command ':PlugInstall' in Vim to install plugins, then run postinstall.sh"
+# echo "Vim configuration installed… Please execute command ':PlugInstall' in Vim to install plugins."
+echo "Vim has been setup! Enjoy!"
+echo "Remember to change your terminal font to 'Hack Nerd Font' in Terminal Preferences settings."
+echo "Please execute command ':PlugInstall' in Vim to install plugins."
 
