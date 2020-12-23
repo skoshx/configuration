@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 
 # Sets up macOS with all the necessary programs and configuration.
 
@@ -26,4 +26,6 @@ cp .bashrc ~/
 cp .tmux.conf ~/
 echo "Executing viminstall.sh…"
 bash viminstall.sh
+echo "Writing defaults…"
+defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 echo "\n\nSetup has finished."
