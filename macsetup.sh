@@ -24,8 +24,8 @@ installLeaves
 echo "Moving configuration files…"
 cp .bashrc ~/
 cp .tmux.conf ~/
-echo "Executing viminstall.sh…"
-bash viminstall.sh
+echo "Setting up vim config…"
+#bash vimsetup.sh
 echo "Writing defaults…"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
-echo "\n\nSetup has finished."
+echo "Setup has finished."
