@@ -28,4 +28,5 @@ echo "Setting up vim config…"
 #bash vimsetup.sh
 echo "Writing defaults…"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+defaults write com.apple.finder AppleShowAllFiles YES
 echo "Setup has finished."
