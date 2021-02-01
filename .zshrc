@@ -1,5 +1,5 @@
 alias lsa='ls --colora'
-PROMPT="%n@%m %~$ "
+PROMPT="%~$ "
 export EDITOR='vim'
 # Add Homebrew to path
 export PATH=/opt/homebrew/bin:$PATH
